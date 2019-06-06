@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <cmath>
 #include <string>
+#include <sstream>
 
 using namespace sf;
 
@@ -142,12 +143,16 @@ int tetris()
         }
         if (count<N) k--;        
     }
-    if(k > 0)sum += calculate(sum, k);
+    if(k > 0)sum = calculate(sum, k);
 
-    //points << sum ;
-    //text.setString("Очки:" + points.str());//задаем строку тексту и вызываем сформированную выше строку методом .str()
-    //text.setPosition(view.getCenter().x, view.getCenter().y);//задаем позицию текста, отступая от центра камеры
-    //window.draw(text);//рисую этот текст
+    Font font;//шрифт
+        font.loadFromFile("../God_Tetris/app/fonts/GodFont.ttf");//передаем нашему шрифту файл шрифта
+        Text text("", font, 20);//создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
+        text.setColor(Color::Yellow);
+    std::ostringstream playerScoreString;    // объявили переменную
+            playerScoreString << sum;		//занесли в нее число очков, то есть формируем строку
+            text.setString("Score:" + playerScoreString.str());//задаем строку тексту и вызываем сформированную выше строку методом .str()
+            text.setPosition(220, 20);//задаем позицию текста, отступая от центра камеры
 
     if(field [2][0]||field[2][1]) {
         cleararray();
@@ -181,6 +186,7 @@ int tetris()
       }
 
     window.draw(frame);
+    window.draw(text);//рисую этот текст
     window.display();
     }
 
